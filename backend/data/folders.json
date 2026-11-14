@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "children_ids": [],
+      "color": "#6366f1",
+      "id": 1,
+      "name": "📚 Study",
+      "parent_id": -1
+    },
+    {
+      "children_ids": [],
+      "color": "#f59e0b",
+      "id": 2,
+      "name": "💼 Work",
+      "parent_id": -1
+    },
+    {
+      "children_ids": [],
+      "color": "#10b981",
+      "id": 3,
+      "name": "🏃 Personal",
+      "parent_id": -1
+    },
+    {
+      "children_ids": [],
+      "color": "#ec4899",
+      "id": 4,
+      "name": "📓 Diary",
+      "parent_id": -1
+    }
+  ],
+  "next_id": 6
+}

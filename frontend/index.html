@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A powerful Task Tracker & Daily Diary web app built with C++ backend and modern HTML/JS frontend." />
+  <title>TaskFlow — Task Tracker & Daily Diary</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══════════════════════════════════
+       SIDEBAR
+       ══════════════════════════════════ -->
+  <aside id="sidebar">
+
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <div class="logo-text">TaskFlow</div>
+          <div class="logo-sub">C++ Backend</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Views</div>
+      <div class="nav-item active" data-view="tasks" onclick="setTab('tasks')">
+        <span class="nav-icon">✅</span>
+        <span>Tasks</span>
+      </div>
+      <div class="nav-item" data-view="diary" onclick="setTab('diary')">
+        <span class="nav-icon">📓</span>
+        <span>Diary</span>
+      </div>
+      <div class="nav-item" data-view="analytics" onclick="setTab('analytics')">
+        <span class="nav-icon">📊</span>
+        <span>Analytics</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Folders</div>
+      <div id="folder-list"></div>
+    </div>
+
+    <button class="btn-add-folder" onclick="openAddFolderModal()">
+      <span>＋</span> New Folder
+    </button>
+
+  </aside>
+
+  <!-- ══════════════════════════════════
+       MAIN CONTENT
+       ══════════════════════════════════ -->
+  <div id="main">
+
+    <!-- Topbar -->
+    <header id="topbar">
+      <h1 class="topbar-title">TaskFlow Dashboard</h1>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="search-input" placeholder="Search tasks, diary notes…" autocomplete="off" />
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-secondary" onclick="openAddTaskModal('diary')">
+          ✍️ Diary
+        </button>
+        <button class="btn btn-primary" onclick="openAddTaskModal('task')">
+          ＋ Add Task
+        </button>
+      </div>
+    </header>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+      <div class="tab active" data-tab="tasks">✅ Tasks</div>
+      <div class="tab" data-tab="diary">📓 Diary</div>
+      <div class="tab" data-tab="analytics">📊 Weekly Analytics</div>
+    </div>
+
+    <!-- Dynamic Content -->
+    <div id="content">
+      <div class="empty-state">
+        <div class="empty-icon"><span class="loader"></span></div>
+        <h3>Connecting to C++ backend…</h3>
+        <p>Make sure the server is running on port 8080</p>
+      </div>
+    </div>
+
+  </div><!-- /#main -->
+
+</div><!-- /#app -->
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

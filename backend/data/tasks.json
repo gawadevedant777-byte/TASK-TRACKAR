@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "created_at": 1793632005,
+      "date": "2026-11-02",
+      "description": "Practice BFS, DFS, and topological sort questions",
+      "folder_id": 1,
+      "id": 1,
+      "priority": "high",
+      "status": "pending",
+      "title": "Review DSA Graph Algorithms",
+      "type": "task"
+    },
+    {
+      "created_at": 1793632005,
+      "date": "2026-11-02",
+      "description": "Verify C++ models, weekly tracker calculations, and web UI",
+      "folder_id": 2,
+      "id": 2,
+      "priority": "high",
+      "status": "done",
+      "title": "Complete TaskFlow Code Audit",
+      "type": "task"
+    },
+    {
+      "created_at": 1793632005,
+      "date": "2026-11-02",
+      "description": "Cardio and strength training sessions",
+      "folder_id": 3,
+      "id": 3,
+      "priority": "medium",
+      "status": "done",
+      "title": "Plan Weekly Workout Schedule",
+      "type": "task"
+    },
+    {
+      "created_at": 1793632005,
+      "date": "2026-11-02",
+      "description": "Built an end-to-end full stack task tracker and diary in C++ and JavaScript. System architecture is robust and clean.",
+      "folder_id": 4,
+      "id": 4,
+      "priority": "low",
+      "status": "done",
+      "title": "Today's Reflections & Learning",
+      "type": "diary"
+    }
+  ],
+  "next_id": 8
+}
