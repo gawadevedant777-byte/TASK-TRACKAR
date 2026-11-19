@@ -1,33 +1,59 @@
 {
   "data": [
     {
-      "children_ids": [],
+      "children_ids": [
+        5,
+        6
+      ],
       "color": "#6366f1",
       "id": 1,
-      "name": "📚 Study",
+      "name": "📚 Study & Academics",
       "parent_id": -1
     },
     {
-      "children_ids": [],
+      "children_ids": [
+        7
+      ],
       "color": "#f59e0b",
       "id": 2,
-      "name": "💼 Work",
+      "name": "💼 Work & Projects",
       "parent_id": -1
     },
     {
       "children_ids": [],
       "color": "#10b981",
       "id": 3,
-      "name": "🏃 Personal",
+      "name": "🏃 Health & Fitness",
       "parent_id": -1
     },
     {
       "children_ids": [],
       "color": "#ec4899",
       "id": 4,
-      "name": "📓 Diary",
+      "name": "📓 Personal Diary",
       "parent_id": -1
+    },
+    {
+      "children_ids": [],
+      "color": "#8b5cf6",
+      "id": 5,
+      "name": "💻 Data Structures & Algorithms",
+      "parent_id": 1
+    },
+    {
+      "children_ids": [],
+      "color": "#3b82f6",
+      "id": 6,
+      "name": "🌐 Web Architecture & Systems",
+      "parent_id": 1
+    },
+    {
+      "children_ids": [],
+      "color": "#06b6d4",
+      "id": 7,
+      "name": "⚡ TaskFlow Application",
+      "parent_id": 2
     }
   ],
-  "next_id": 6
+  "next_id": 9
 }

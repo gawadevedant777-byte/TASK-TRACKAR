@@ -281,10 +281,13 @@ private:
 
     void seed_defaults_if_empty() {
         if (folders.empty()) {
-            add_folder("📚 Study",    -1, "#6366f1");
-            add_folder("💼 Work",     -1, "#f59e0b");
-            add_folder("🏃 Personal", -1, "#10b981");
-            add_folder("📓 Diary",    -1, "#ec4899");
+            add_folder("📚 Study & Academics",            -1, "#6366f1");
+            add_folder("💼 Work & Projects",             -1, "#f59e0b");
+            add_folder("🏃 Health & Fitness",            -1, "#10b981");
+            add_folder("📓 Personal Diary",               -1, "#ec4899");
+            add_folder("💻 Data Structures & Algorithms",  1, "#8b5cf6");
+            add_folder("🌐 Web Architecture & Systems",    1, "#3b82f6");
+            add_folder("⚡ TaskFlow Application",          2, "#06b6d4");
         }
 
         if (tasks.empty()) {
@@ -293,8 +296,8 @@ private:
             strftime(buf, sizeof(buf), "%Y-%m-%d", localtime(&now));
             std::string today(buf);
 
-            add_task("Review DSA Graph Algorithms", "Practice BFS, DFS, and topological sort questions", today, 1, "task", "high", "done");
-            add_task("Complete TaskFlow Code Audit", "Verify C++ models, weekly tracker calculations, and web UI", today, 2, "task", "high", "done");
+            add_task("Review DSA Graph Algorithms", "Practice BFS, DFS, and topological sort questions", today, 5, "task", "high", "done");
+            add_task("Complete TaskFlow Code Audit", "Verify C++ models, weekly tracker calculations, and web UI", today, 7, "task", "high", "done");
             add_task("Plan Weekly Workout Schedule", "Cardio and strength training sessions", today, 3, "task", "medium", "pending");
             add_task("Today's Reflections & Learning", "Built an end-to-end full stack task tracker and diary in C++ and JavaScript. System architecture is robust and clean.", today, 4, "diary", "low", "done");
         }
