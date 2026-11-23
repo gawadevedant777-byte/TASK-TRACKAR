@@ -106,7 +106,7 @@
       "folder_id": 7,
       "id": 10,
       "priority": "medium",
-      "status": "pending",
+      "status": "done",
       "title": "System Architecture & API Documentation",
       "type": "task"
     },

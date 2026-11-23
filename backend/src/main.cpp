@@ -3,7 +3,7 @@
  *  TaskFlow — Task Tracker & Daily Diary C++ Backend
  *  HTTP Server: Raw WinSock2 (compatible with MinGW GCC 6+)
  *  JSON: nlohmann/json
- *  Port: 8080
+ *  Port: 8080 (auto-fallback 8081-8085 if 8080 is busy)
  * ═══════════════════════════════════════════════════════════════
  */
 
@@ -367,7 +367,7 @@ static HttpResponse handle(DataStore& db,
 }
 
 // ─── Main server loop ─────────────────────────────────────────
-int main() {
+int main(int argc, char* argv[]) {
     // Resolve absolute paths relative to server.exe location
     char exe_path[MAX_PATH];
     GetModuleFileNameA(NULL, exe_path, MAX_PATH);
@@ -389,24 +389,47 @@ int main() {
 
     DataStore db(data_dir);
 
-    SOCKET srv_sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (srv_sock == INVALID_SOCKET) {
-        std::cerr << "socket() failed\n";
-        return 1;
+    // Port selection: command line argument or auto fallback range 8080-8085
+    int requested_port = 8080;
+    if (argc > 1) {
+        try { requested_port = std::stoi(argv[1]); } catch (...) { requested_port = 8080; }
     }
 
-    int opt = 1;
-    setsockopt(srv_sock, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt));
+    std::vector<int> try_ports;
+    try_ports.push_back(requested_port);
+    if (requested_port == 8080) {
+        try_ports.push_back(8081);
+        try_ports.push_back(8082);
+        try_ports.push_back(8083);
+        try_ports.push_back(8084);
+        try_ports.push_back(8085);
+    }
 
-    sockaddr_in addr;
-    memset(&addr, 0, sizeof(addr));
-    addr.sin_family      = AF_INET;
-    addr.sin_port        = htons(8080);
-    addr.sin_addr.s_addr = INADDR_ANY;
+    SOCKET srv_sock = INVALID_SOCKET;
+    int bound_port = -1;
 
-    if (bind(srv_sock, (sockaddr*)&addr, sizeof(addr)) == SOCKET_ERROR) {
-        std::cerr << "bind() failed on port 8080. Is another server running?\n";
+    for (int p : try_ports) {
+        srv_sock = socket(AF_INET, SOCK_STREAM, 0);
+        if (srv_sock == INVALID_SOCKET) continue;
+
+        sockaddr_in addr;
+        memset(&addr, 0, sizeof(addr));
+        addr.sin_family      = AF_INET;
+        addr.sin_port        = htons(p);
+        addr.sin_addr.s_addr = INADDR_ANY;
+
+        if (bind(srv_sock, (sockaddr*)&addr, sizeof(addr)) == 0) {
+            bound_port = p;
+            break;
+        }
+
         closesocket(srv_sock);
+        srv_sock = INVALID_SOCKET;
+    }
+
+    if (bound_port == -1 || srv_sock == INVALID_SOCKET) {
+        std::cerr << "[ERROR] Could not bind to port " << requested_port
+                  << " or fallback ports (8081-8085). Please close other running servers.\n";
         WSACleanup();
         return 1;
     }
@@ -416,15 +439,25 @@ int main() {
     std::cout << "\n";
     std::cout << "╔═══════════════════════════════════════════════════╗\n";
     std::cout << "║    TaskFlow — Task Tracker & Daily Diary Server   ║\n";
-    std::cout << "║    Available at: http://localhost:8080            ║\n";
+    std::cout << "║    Available at: http://localhost:" << bound_port;
+    if (bound_port < 10000) std::cout << " ";
+    std::cout << "          ║\n";
     std::cout << "╚═══════════════════════════════════════════════════╝\n\n";
     std::cout << "[INFO] Data directory : " << data_dir   << "\n";
     std::cout << "[INFO] Static root    : " << static_dir << "\n";
-    std::cout << "[INFO] Listening on port 8080 (Press Ctrl+C to stop)\n\n";
+    std::cout << "[INFO] Listening on port " << bound_port << " (Press Ctrl+C to stop)\n\n";
+
+    // Auto-launch browser if not disabled
+    std::string open_cmd = "start http://localhost:" + std::to_string(bound_port);
+    system(open_cmd.c_str());
 
     while (true) {
         SOCKET client = accept(srv_sock, NULL, NULL);
         if (client == INVALID_SOCKET) continue;
+
+        // Set 4-second receive timeout so sockets never hang
+        DWORD rcv_timeout = 4000;
+        setsockopt(client, SOL_SOCKET, SO_RCVTIMEO, (char*)&rcv_timeout, sizeof(rcv_timeout));
 
         std::string raw;
         char buf[8192];
